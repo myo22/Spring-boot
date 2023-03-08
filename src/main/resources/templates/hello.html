@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> <!-- Thymeleaf는 JSP와 동일하게 서버에서 결과물을 생성해서 보내는 방식이지만 좀 더 HTML에 가깝게 작성할 수 있고 다양한 기능들을 가지고 있다 -->
+<!DOCTYPE html>     <!--/* xmlns가 네임스페이스인데 이걸로 Thymeleaf를 지정한것이다. 지정하면 'th:'와 같은 Thymeleaf의 모든 기능을 사용할 수 있다. */-->
+<html xmlns:th="http://www.thymeleaf.org"> <!--/* Thymeleaf는 JSP와 동일하게 서버에서 결과물을 생성해서 보내는 방식이지만 좀 더 HTML에 가깝게 작성할 수 있고 다양한 기능들을 가지고 있다 */-->
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
   <h1 th:text="${msg}"></h1>
+
+<div th:with="num1 = ${10}, num2 = ${20}"> <!--*/ Thymeleaf를 이용하는 과정에서 임시로 변수를 선언해야 하는 상황에서는 th:with을 이용해서 간단하게 처리가능 '변수명 = 값' */-->
+    <h4 th:text="${num1 + num2}"></h4>
+</div>
 </body>
 </html>

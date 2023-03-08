@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 반복문 처리에는 이처럼 두가지 경우가 있다 -->
+<ul>
+    <li th:each="str: ${list}" th:text="${str}"></li>
+</ul>
+
+<ul>
+    <th:block th:each="str: ${list}">
+        <li>[[${str}]]</li>
+    </th:block>
+</ul>
+
+<ul>
+    <li th:each="str, status: ${list}"> <!--일명 status 변수라고 해서 index/count/size등등 으로 출력이 가능하게 해준다. -->
+        [[${status.index}]] -- [[${str}]]
+    </li>
+</ul>
+
+<ul>
+    <li th:each="str, status: ${list}">
+        <span th:if="${status.odd}"> 홀수 -- [[${str}]]</span> <!--<div>는 줄 바꿈이 가능하지만 <span>은 줄 바꿈이 되지 않는다는 점-->
+        <span th:unless="${status.odd}"> 짝수 -- [[${str}]]</span>
+    </li>
+</ul>
+
+<ul>
+    <li th:each="str, status: ${list}"> <!-- '?'를 이용하면 이항 혹은 삼항 연산 처리가 가능합니다.-->
+        <span th:text="${status.odd} ? 'ODD ---' + ${str}"></span>
+    </li>
+</ul>
+
+<ul>
+    <li th:each="str, status: ${list}">
+        <span th:text="${status.odd} ? 'ODD ---' + ${str} : 'EVEN ---' + ${str}"></span>
+    </li>
+</ul>
+
+<ul>
+    <li th:each="str, status: ${list}">
+        <th:block th:switch="${status.index % 3}">
+            <span th:case="0">0</span>
+            <span th:case="1">1</span>
+            <span th:case="2">2</span>
+        </th:block>
+    </li>
+</ul>
+
+<!-- Thymeleaf의 링크 처리는 JSP에 비하면 '@'로 링크만 작성하면 된다. -->
+<a th:href="@{/hello}">Go to /hello</a>
+
+<!-- 링크를 'Key=value'의 형태로 필요한 파라미터로 처리할때 상당히 편리하다 '()'를 이용해서 파라미터의 이름과 값을 지정한다 -->
+<a th:href="@{/hello(name='AAA', age = 16)}">GO to /hello</a>
+
+<a th:href="@{/hello(name='한글처리', age = 16)}">Go to /hello</a>  <!-- Thymeleaf는 URL 인코딩 처리가 자동이다. -->
+
+<a th:href="@{/hello(types=${ {'AA','BB','CC'} }, age= 16)}">Go to /hello</a> <!--링크를 만드는 값이 배열과 같이 여러 개일 때는 자동으로 같은 이름의 파라미터를 처리 -->
+</body>
+</html>
