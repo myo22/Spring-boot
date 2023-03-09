@@ -54,7 +54,7 @@ public class SampleController { //스프링 부트를 이용하여 웹을 개발
         log.info("ex/ex2.....................");
 
         List<String> strList = IntStream.range(1, 10) // 1에서 10까지 반복.
-                .mapToObj(i -> "Data" + i) //mapToobj는 원시 Stream : ex) IntStream.range(1,4)타입을 일반적인 Stream객체 : ex) Stream<String>으로 변환하는 것이다.
+                .mapToObj(i -> "Data" + i) //mapToobj는 원시 Stream : ex) IntStream.range(1,4)타입을 일반적인 Stream객체 : ex) Stream<String>으로 변환하는 것입니다.
                 .collect(Collectors.toList());
 
         model.addAttribute("list", strList); //모델에 담아서 전달
