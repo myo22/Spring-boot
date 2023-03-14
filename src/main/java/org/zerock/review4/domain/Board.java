@@ -1,8 +1,15 @@
 package org.zerock.review4.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Board extends BaseEntity{
 
     @Id
@@ -17,4 +24,9 @@ public class Board extends BaseEntity{
 
     @Column(length = 50, nullable = false)
     private String writer;
+
+    public void change(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }
