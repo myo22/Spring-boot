@@ -41,6 +41,9 @@ dependencies {
     //레이아웃 기능 추가
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
 
+    //ModelMapper설정
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
     //Querydsl 관련 라이브러리들
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor(
