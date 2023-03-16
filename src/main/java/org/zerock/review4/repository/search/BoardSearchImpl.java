@@ -1,7 +1,9 @@
 package org.zerock.review4.repository.search;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.zerock.review4.domain.Board;
@@ -32,5 +34,46 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         long count = query.fetchCount(); //fetchCount()를 이용하면 count 쿼리를 실행할 수 있습니다.
 
         return null;
+    }
+
+    @Override
+    public Page<Board> searchAll(String[] types, String keyword, Pageable pageable){
+
+        QBoard board = QBoard.board;
+        JPQLQuery<Board> query = from(board);
+
+        if ( (types != null && types.length > 0) && keyword != null){ //검색조건과 키워드가 있다면
+
+            BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+            for (String type: types){
+
+                switch (type){
+                    case "t":
+                        booleanBuilder.or(board.title.contains(keyword));
+                        break;
+                    case "c":
+                        booleanBuilder.or(board.content.contains(keyword));
+                        break;
+                    case "w":
+                        booleanBuilder.or(board.writer.contains(keyword));
+                        break;
+                }
+            }//end for
+            query.where(booleanBuilder);
+        }//end if
+
+        //bno > 0
+        query.where(board.bno.gt(0L));
+
+        //paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<Board> list = query.fetch();
+
+        Long count = query.fetchCount();
+
+        //list: 실제 목록 데이터, Pageable: 페이지 관련 정보를 가진 객체, long: 전체 개수 이걸로 직접 처리해야 한다.
+        return new PageImpl<>(list, pageable, count);
     }
 }
